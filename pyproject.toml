@@ -11,7 +11,7 @@ version = "0.1.0"
 description = "Repo with my advent of code solutions 2025"
 readme = "README.md"
 requires-python = ">=3.11"
-authors = [{name = "Medallion", email = "nickcar13@gmail.com"}]
+authors = [{ name = "Medallion", email = "nickcar13@gmail.com" }]
 dependencies = []
 
 
@@ -19,5 +19,90 @@ dependencies = []
 dev = [
     "pytest (>=9.0.1,<10.0.0)",
     "ruff (>=0.14.7,<0.15.0)",
-    "mypy (>=1.19.0,<2.0.0)"
+    "mypy (>=1.19.0,<2.0.0)",
 ]
+
+#--------------------------------------------------------------
+# Ruff
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+fix = true
+exclude = [".git", ".venv", "__pycache__", "*.egg-info"]
+
+[tool.ruff.lint]
+select=[
+    "E",   # pycodestyle errors
+    "F",   # Pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "N",   # pep8-naming
+]
+ignore = [
+    "E501"
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["advent_of_code_2025"]
+combine-as-imports = true
+
+#--------------------------------------------------------------
+# pytest
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["."]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--cov=day1",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests",
+]
+
+# Coverage
+[tool.coverage.run]
+source = ["."]  # Directorios a medir
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    ".venv/*",
+    "htmlcov/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+#--------------------------------------------------------------
+# mypy
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+# disallow_any_generics = false #listas diccionarios sin tipo
+exclude = [
+    ".venv",
+    "__pycache__",
+    "htmlcov",
+]
+
+[[tool.mypy.overrides]]
+module = "*.tests.*"
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+disallow_incomplete_defs = false
+warn_return_any = false 
