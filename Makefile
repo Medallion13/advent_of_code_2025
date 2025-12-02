@@ -38,7 +38,7 @@ typecheck:
 	@echo "Type checking passed"
 
 check: format lint typecheck test
-	@"All checks passed"
+	@echo "All checks passed"
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -rf {} +
