@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 
@@ -29,10 +30,9 @@ def solve_part1(filepath: Path) -> None:
 
 
 def check_if_not_valid_2(value: str) -> bool:
-    length = len(value)
-    if length % 2 != 0:
-        # TODO si es impar debe existir un substring impar que se repita 1-3-5
-        return False
+    substring = re.match(r"^(.+?)\1+$", value)
+    if substring:
+        return True
 
     return False
 
@@ -51,9 +51,11 @@ def solve_part2(filepath: Path) -> None:
             if check_if_not_valid_2(str(value)):
                 total += value
 
+    print(total)
+
 
 if __name__ == "__main__":
     script_dir = Path(__file__).parent
     sample_input = script_dir / "input.txt"
-    # solve_part1(sample_input)
+    solve_part1(sample_input)
     solve_part2(sample_input)
